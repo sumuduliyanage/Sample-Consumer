@@ -84,14 +84,15 @@ func main() {
 		} else {
 			temperature := WeatherData{}
 			value := message.Value
+			log.Printf("Got message using SSL: %s", message.Value)
 			err := json.Unmarshal(value, &temperature)
 			if err != nil {
 				log.Printf("Could not unmarshal message: %s", err)
 			}
 			if temperature.TemperatureInCelsius > 30 {
-				log.Printf("Temperature is too high: %d", temperature.TemperatureInCelsius)
+				log.Printf("Temperature is too high: %d StationId:%d", temperature.TemperatureInCelsius, temperature.StationId)
 			}
-			log.Printf("Got message using SSL: %s", message.Value)
+
 		}
 	}
 }
