@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -13,9 +14,9 @@ import (
 )
 
 type WeatherData struct {
-	StationId   int    `json:"stationId"`
-	StationName string `json:"stationName"`
-	Temperature string `json:"temperature"`
+	StationId            int    `json:"stationId"`
+	StationName          string `json:"stationName"`
+	TemperatureInCelsius int    `json:"temperatureInCelsius"`
 }
 
 func loadPEMFromFile(filePath string) ([]byte, error) {
@@ -81,6 +82,15 @@ func main() {
 		if err != nil {
 			log.Printf("Could not read message: %s", err)
 		} else {
+			temperature := WeatherData{}
+			value := message.Value
+			err := json.Unmarshal(value, &temperature)
+			if err != nil {
+				log.Printf("Could not unmarshal message: %s", err)
+			}
+			if temperature.TemperatureInCelsius > 30 {
+				log.Printf("Temperature is too high: %d", temperature.TemperatureInCelsius)
+			}
 			log.Printf("Got message using SSL: %s", message.Value)
 		}
 	}
