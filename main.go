@@ -28,15 +28,15 @@ func loadPEMFromFile(filePath string) ([]byte, error) {
 
 func main() {
 
-	serviceCert, err := loadPEMFromFile("service.cert")
+	serviceCert, err := loadPEMFromFile("/service.cert")
 	if err != nil {
 		log.Fatalf("Failed to load SERVICE_CERT: %s", err)
 	}
-	serviceKey, err := loadPEMFromFile("service.key")
+	serviceKey, err := loadPEMFromFile("/service.key")
 	if err != nil {
 		log.Fatalf("Failed to load SERVICE_KEY: %s", err)
 	}
-	caCert, err := loadPEMFromFile("ca.pem")
+	caCert, err := loadPEMFromFile("/ca.pem")
 	if err != nil {
 		log.Fatalf("Failed to load CA_CERT: %s", err)
 	}
